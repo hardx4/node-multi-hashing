@@ -11,6 +11,7 @@ extern "C" {
     #include "scryptn.h"
     #include "skein.h"
     #include "x11.h"
+    #include "timetravel.h"
     #include "groestl.h"
     #include "blake.h"
     #include "fugue.h"
@@ -76,6 +77,28 @@ Handle<Value> x11(const Arguments& args) {
 
     Buffer* buff = Buffer::New(output, 32);
     return scope.Close(buff->handle_);
+}
+
+Handle<Value> timetravel(const Arguments& args) {
+	HandleScope scope;
+
+	if (args.Length() < 1)
+		return except("You must provide one argument.");
+
+	Local<Object> target = args[0]->ToObject();
+
+	if (!Buffer::HasInstance(target))
+		return except("Argument should be a buffer object.");
+
+	char * input = Buffer::Data(target);
+	char output[32];
+
+	uint32_t input_len = Buffer::Length(target);
+
+	timetravel_hash(input, output, input_len);
+
+	Buffer* buff = Buffer::New(output, 32);
+	return scope.Close(buff->handle_);
 }
 
 Handle<Value> scrypt(const Arguments& args) {
