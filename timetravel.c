@@ -104,7 +104,7 @@ void timetravel_hash(const char* input, char* output, uint32_t len)
 
 	for (uint32_t i = 0; i < HASH_FUNC_COUNT; i++) {
 		if (i == 0) {
-			dataLen = 64;
+			dataLen = len;
 			hashA = work_data;
 		}
 		else {
