@@ -1,6 +1,8 @@
-#include <stdio.h>
+#include "timetravel.h"
 #include <stdlib.h>
+#include <stdint.h>
 #include <string.h>
+#include <stdio.h>
 
 #define HASH_FUNC_BASE_TIMESTAMP 1389040865 // Machinecoin: Genesis Timestamp
 #define HASH_FUNC_COUNT 8                   // Machinecoin: HASH_FUNC_COUNT of 11
