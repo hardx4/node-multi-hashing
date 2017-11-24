@@ -1,6 +1,8 @@
-#include <stdio.h>
+#include "timetravel.h"
 #include <stdlib.h>
+#include <stdint.h>
 #include <string.h>
+#include <stdio.h>
 
 #define HASH_FUNC_BASE_TIMESTAMP 1492973331U // BitCore: Genesis Timestamp
 #define HASH_FUNC_COUNT 10
