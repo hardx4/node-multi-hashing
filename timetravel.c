@@ -74,7 +74,7 @@ static void next_permutation(int *pbegin, int *pend) {
 void timetravel_hash(const char* input, char* output, uint32_t len)
 {
 	uint32_t _ALIGN(64) hash[16 * HASH_FUNC_COUNT];
-	uint32_t *hashA, *hashB;
+	uint32_t hashA[16], hashB[16];
 	uint32_t dataLen = 64;
 	uint32_t *work_data = (uint32_t *)input;
 	const uint32_t timestamp = work_data[17];
@@ -180,6 +180,6 @@ void timetravel_hash(const char* input, char* output, uint32_t len)
 		}
 	}
 
-	memcpy(output, &hash[16 * (HASH_FUNC_COUNT - 1)], 32);
+	memcpy(output, hashA, 32);
 }
 
