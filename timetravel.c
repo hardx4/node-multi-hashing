@@ -112,9 +112,9 @@ void timetravel_hash(const char* input, char* output, uint32_t len)
 			hashA = work_data;
 		} else {
 			dataLen = 64;
-			hashA = &hash[16 * (i - 1)];
+			hashA = &hashA[16 * (i - 1)];
 		}
-		hashB = &hash[16 * i];
+		hashB = &hashA[16 * i];
 
 		switch(permutation[i]) {
 			case 0:
