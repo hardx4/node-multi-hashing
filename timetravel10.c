@@ -91,6 +91,20 @@ void timetravel10_hash(const char* input, char* output, uint32_t len)
 	hashState_sd            ctx_simd;
 	sph_groestl512_context  ctx_groestl;
 
+	// We want to permute algorithms. To get started we
+	// initialize an array with a sorted sequence of unique
+	// integers where every integer represents its own algorithm.
+	uint32_t permutation[HASH_FUNC_COUNT];
+	for (uint32_t i = 0; i < HASH_FUNC_COUNT; i++) {
+		permutation[i] = i;
+	}
+
+	// Compute the next permuation
+	uint32_t steps = (timestamp - HASH_FUNC_BASE_TIMESTAMP) % HASH_FUNC_COUNT_PERMUTATIONS;
+	for (uint32_t i = 0; i < steps; i++) {
+		next_permutation(permutation, permutation + HASH_FUNC_COUNT);
+	}
+
 	for (uint32_t i = 0; i < HASH_FUNC_COUNT; i++) {
 		if (i == 0) {
 			dataLen = 80;
