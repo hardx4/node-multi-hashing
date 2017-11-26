@@ -4,10 +4,6 @@
 #include <string.h>
 #include <stdio.h>
 
-#define HASH_FUNC_BASE_TIMESTAMP 1492973331U // BitCore: Genesis Timestamp
-#define HASH_FUNC_COUNT 10
-#define HASH_FUNC_COUNT_PERMUTATIONS 40320
-
 #include "sha3/sph_blake.h"
 #include "sha3/sph_bmw.h"
 #include "sha3/sph_jh.h"
@@ -19,8 +15,12 @@
 #include "algo/simd/sse2/nist.h"
 #include "sha3/sph_groestl.h"
 
+#define HASH_FUNC_BASE_TIMESTAMP 1492973331U // BitCore: Genesis Timestamp
+#define HASH_FUNC_COUNT 10
+#define HASH_FUNC_COUNT_PERMUTATIONS 40320
 
-#define _ALIGN(x) __attribute__ ((aligned(x)))
+static __thread uint32_t s_ntime = UINT32_MAX;
+static __thread int permutation[HASH_FUNC_COUNT] = { 0 };
 
 // helpers
 inline void swap(int *a, int *b) {
@@ -31,10 +31,12 @@ inline void swap(int *a, int *b) {
 
 static void reverse(int *pbegin, int *pend) {
 	while ((pbegin != pend) && (pbegin != --pend))
-		swap(pbegin++, pend);
+		swap(pbegin, pend);
+	    pbegin++;
 }
 
-static void next_permutation(int *pbegin, int *pend) {
+static void next_permutation(int *pbegin, int *pend) 
+{
 	if (pbegin == pend)
 		return;
 
@@ -46,25 +48,28 @@ static void next_permutation(int *pbegin, int *pend) {
 	i = pend;
 	--i;
 
-	while (1) {
+	while (1)
+	{
 		int *j = i;
 		--i;
 
-		if (*i < *j) {
+		if (*i < *j)
+		{
 			int *k = pend;
 
-			while (!(*i < *--k))
-				/* pass */;
+			while (!(*i < *--k)) /* do nothing */;
 
 			swap(i, k);
 			reverse(j, pend);
 			return; // true
 		}
 
-		if (i == pbegin) {
+		if (i == pbegin)
+		{
 			reverse(pbegin, pend);
 			return; // false
 		}
+		// else?
 	}
 }
 // helpers
@@ -118,59 +123,149 @@ void timetravel10_hash(const char* input, char* output, uint32_t len)
 
 		switch (permutation[i]) {
 		case 0:
-			sph_blake512_init(&ctx_blake);
-			sph_blake512(&ctx_blake, hashA, dataLen);
-			sph_blake512_close(&ctx_blake, hashB);
+			if (i == 0)
+			{
+				sph_blake512_init(&ctx_blake);
+				sph_blake512(&ctx_blake, input + midlen, tail);
+				sph_blake512_close(&ctx_blake, hashB);
+			}
+			else
+			{
+				sph_blake512_init(&ctx_blake);
+				sph_blake512(&ctx_blake, hashA, dataLen);
+				sph_blake512_close(&ctx_blake, hashB);
+			}
 			break;
 		case 1:
-			sph_bmw512_init(&ctx_bmw);
-			sph_bmw512(&ctx_bmw, hashA, dataLen);
-			sph_bmw512_close(&ctx_bmw, hashB);
+			if (i == 0)
+			{
+				sph_bmw512_init(&ctx_bmw);
+				sph_bmw512(&ctx_bmw, input + midlen, tail);
+				sph_bmw512_close(&ctx_bmw, hashB);
+			}
+			else
+			{
+				sph_bmw512_init(&ctx_bmw);
+				sph_bmw512(&ctx_bmw, hashA, dataLen);
+				sph_bmw512_close(&ctx_bmw, hashB);
+			}
 			break;
 		case 2:
-			sph_groestl512_init(&ctx_groestl);
-			sph_groestl512(&ctx_groestl, hashA, dataLen);
-			sph_groestl512_close(&ctx_groestl, hashB);
+			if (i == 0)
+			{
+				sph_groestl512_init(&ctx_groestl);
+				sph_groestl512(&ctx_groestl, input + midlen, tail);
+				sph_groestl512_close(&ctx_groestl, hashB);
+			}
+			else
+			{
+				sph_groestl512_init(&ctx_groestl);
+				sph_groestl512(&ctx_groestl, hashA, dataLen);
+				sph_groestl512_close(&ctx_groestl, hashB);
+			}
 			break;
 		case 3:
-			sph_skein512_init(&ctx_skein);
-			sph_skein512(&ctx_skein, hashA, dataLen);
-			sph_skein512_close(&ctx_skein, hashB);
+			if (i == 0)
+			{
+				sph_skein512_init(&ctx_skein);
+				sph_skein512(&ctx_skein, input + midlen, tail);
+				sph_skein512_close(&ctx_skein, hashB);
+			}
+			else
+			{
+				sph_skein512_init(&ctx_skein);
+				sph_skein512(&ctx_skein, hashA, dataLen);
+				sph_skein512_close(&ctx_skein, hashB);
+			}
 			break;
 		case 4:
-			sph_jh512_init(&ctx_jh);
-			sph_jh512(&ctx_jh, hashA, dataLen);
-			sph_jh512_close(&ctx_jh, hashB);
+			if (i == 0)
+			{
+				sph_jh512_init(&ctx_jh);
+				sph_jh512(&ctx_jh, input + midlen, tail);
+				sph_jh512_close(&ctx_jh, hashB);
+			}
+			else
+			{
+				sph_jh512_init(&ctx_jh);
+				sph_jh512(&ctx_jh, hashA, dataLen);
+				sph_jh512_close(&ctx_jh, hashB);
+			}
 			break;
 		case 5:
-			sph_keccak512_init(&ctx_keccak);
-			sph_keccak512(&ctx_keccak, hashA, dataLen);
-			sph_keccak512_close(&ctx_keccak, hashB);
+			if (i == 0)
+			{
+				sph_keccak512_init(&ctx_keccak);
+				sph_keccak512(&ctx_keccak, input + midlen, tail);
+				sph_keccak512_close(&ctx_keccak, hashB);
+			}
+			else
+			{
+				sph_keccak512_init(&ctx_keccak);
+				sph_keccak512(&ctx_keccak, hashA, dataLen);
+				sph_keccak512_close(&ctx_keccak, hashB);
+			}
 			break;
 		case 6:
-			sph_luffa512_init(&ctx_luffa);
-			sph_luffa512(&ctx_luffa, hashA, dataLen);
-			sph_luffa512_close(&ctx_luffa, hashB);
+			if (i == 0)
+			{
+				init_luffa(&ctx_luffa, 512);
+				update_and_final_luffa(&ctx_luffa, (BitSequence*)hashB,
+					(const BitSequence *)input + 64, 16);
+			}
+			else
+			{
+				init_luffa(&ctx_luffa, 512);
+				update_and_final_luffa(&ctx_luffa, (BitSequence*)hashB,
+					(const BitSequence *)hashA, dataLen);
+			}
 			break;
 		case 7:
-			sph_cubehash512_init(&ctx_cubehash);
-			sph_cubehash512(&ctx_cubehash, hashA, dataLen);
-			sph_cubehash512_close(&ctx_cubehash, hashB);
+			if (i == 0)
+			{
+				cubehashInit(&ctx_cubehash, 512, 16, 32);
+				cubehashUpdateDigest(&ctx_cubehash, (byte*)hashB,
+					(const byte*)input + midlen, tail);
+			}
+			else
+			{
+				cubehashInit(&ctx_cubehash, 512, 16, 32);
+				cubehashUpdateDigest(&ctx_cubehash, (byte*)hashB, (const byte*)hashA,
+					dataLen);
+			}
 			break;
 		case 8:
-			sph_shavite512_init(&ctx_shavite);
-			sph_shavite512(&ctx_shavite, hashA, dataLen);
-			sph_shavite512_close(&ctx_shavite, hashB);
+			if (i == 0)
+			{
+				sph_shavite512_init(&ctx_shavite);
+				sph_shavite512(&ctx_shavite, input + midlen, tail * 8);
+				sph_shavite512_close(&ctx_shavite, hashB);
+			}
+			else
+			{
+				sph_shavite512_init(&ctx_shavite);
+				sph_shavite512(&ctx_shavite, hashA, dataLen);
+				sph_shavite512_close(&ctx_shavite, hashB);
+			}
 			break;
 		case 9:
-			sph_simd512_init(&ctx_simd);
-			sph_simd512(&ctx_simd, hashA, dataLen);
-			sph_simd512_close(&ctx_simd, hashB);
+			if (i == 0)
+			{
+				init_sd(&ctx_simd, 512);
+				update_final_sd(&ctx_simd, (BitSequence *)hashB,
+					(const BitSequence *)input + midlen, tail * 8);
+			}
+			else
+			{
+				init_sd(&ctx_simd, 512);
+				update_final_sd(&ctx_simd, (BitSequence *)hashB,
+					(const BitSequence *)hashA, dataLen * 8);
+			}
 			break;
 		default:
 			break;
 		}
 	}
 
-	memcpy(output, hashA, 32);
+	memcpy(output, &hash[16 * (HASH_FUNC_COUNT - 1)], 32);
 }
