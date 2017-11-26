@@ -3,7 +3,7 @@
 
 #include "../../../compat.h"
 #include <stdint.h>
-#include "../sha/sha3-defs.h"
+#include "../../sha/sha3-defs.h"
 
 #define	OPTIMIZE_SSE2
 
