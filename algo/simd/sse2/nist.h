@@ -9,7 +9,7 @@
 #endif
 
 #include "simd-compat.h"
-#include "../sha/sha3-defs.h"
+#include "../../sha/sha3-defs.h"
 /*
  * NIST API Specific types.
  */
