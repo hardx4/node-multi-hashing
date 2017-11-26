@@ -52,7 +52,6 @@
                 "algo/shavite/sph_shavite.c",
                 "algo/simd/sse2/nist.c",
                 "algo/groestl/sph_groestl.c",
-                "algo/groestl/aes_ni/hash-groestl.c",
                 "crypto/oaes_lib.c",
                 "crypto/c_keccak.c",
                 "crypto/c_groestl.c",
