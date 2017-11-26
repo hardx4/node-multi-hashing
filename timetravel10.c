@@ -69,6 +69,11 @@ static void next_permutation(int *pbegin, int *pend) {
 }
 // helpers
 
+tt10_ctx_holder;
+
+tt10_ctx_holder tt10_ctx __attribute__((aligned(64)));
+__thread tt10_ctx_holder tt10_mid __attribute__((aligned(64)));
+
 void timetravel10_hash(const char* input, char* output, uint32_t len)
 {
 	uint32_t _ALIGN(64) hash[16 * HASH_FUNC_COUNT];
