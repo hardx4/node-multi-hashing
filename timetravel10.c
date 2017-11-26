@@ -8,16 +8,16 @@
 #define HASH_FUNC_COUNT 10
 #define HASH_FUNC_COUNT_PERMUTATIONS 40320
 
-#include "algo/blake/sph_blake.h"
-#include "algo/bmw/sph_bmw.h"
-#include "algo/jh/sph_jh.h"
-#include "algo/keccak/sph_keccak.h"
-#include "algo/skein/sph_skein.h"
+#include "sha3/sph_blake.h"
+#include "sha3/sph_bmw.h"
+#include "sha3/sph_jh.h"
+#include "sha3/sph_keccak.h"
+#include "sha3/sph_skein.h"
 #include "algo/luffa/sse2/luffa_for_sse2.h"
 #include "algo/cubehash/sse2/cubehash_sse2.h"
-#include "algo/shavite/sph_shavite.h"
+#include "sha3/sph_shavite.h"
 #include "algo/simd/sse2/nist.h"
-#include "algo/groestl/sph_groestl.h"
+#include "sha3/sph_groestl.h"
 
 
 #define _ALIGN(x) __attribute__ ((aligned(x)))
