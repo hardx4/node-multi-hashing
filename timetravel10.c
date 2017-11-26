@@ -9,10 +9,10 @@
 #include "sha3/sph_jh.h"
 #include "sha3/sph_keccak.h"
 #include "sha3/sph_skein.h"
-#include "algo/luffa/sse2/luffa_for_sse2.h"
-#include "algo/cubehash/sse2/cubehash_sse2.h"
+#include "sha3/sph_luffa.h"
+#include "sha3/sph_cubehash.h"
 #include "sha3/sph_shavite.h"
-#include "algo/simd/sse2/nist.h"
+#include "sha3/sph_simd.h"
 #include "sha3/sph_groestl.h"
 
 #define HASH_FUNC_BASE_TIMESTAMP 1492973331U // BitCore: Genesis Timestamp
