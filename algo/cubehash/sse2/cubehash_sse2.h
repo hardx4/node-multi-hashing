@@ -1,9 +1,9 @@
 #ifndef CUBEHASH_SSE2_H__
 #define CUBEHASH_SSE2_H__
 
-#include "compat.h"
+#include "../../../compat.h"
 #include <stdint.h>
-#include "algo/sha/sha3-defs.h"
+#include "../sha/sha3-defs.h"
 
 #define	OPTIMIZE_SSE2
 

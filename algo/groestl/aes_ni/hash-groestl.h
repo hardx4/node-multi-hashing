@@ -21,7 +21,7 @@
 
 #include "brg_endian.h"
 #define NEED_UINT_64T
-#include "algo/sha/brg_types.h"
+#include "../../sha/brg_types.h"
 
 /* some sizes (number of bytes) */
 #define ROWS (8)
