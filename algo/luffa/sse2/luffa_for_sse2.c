@@ -21,7 +21,6 @@
 #include <string.h>
 #include <emmintrin.h>
 #include "../../../avxdefs.h"
-#include "avxdefs.h"
 #include "luffa_for_sse2.h"
 
 #define MULT2(a0,a1) do \
