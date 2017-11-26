@@ -18,7 +18,6 @@
 #include "algo/shavite/sph_shavite.h"
 #include "algo/simd/sse2/nist.h"
 #include "algo/groestl/sph_groestl.h"
-#include "algo/groestl/aes_ni/hash-groestl.h"
 
 
 #define _ALIGN(x) __attribute__ ((aligned(x)))
@@ -88,7 +87,6 @@ void timetravel10_hash(const char* input, char* output, uint32_t len)
 	sph_shavite512_context  ctx_shavite;
 	hashState_sd            ctx_simd;
 	sph_groestl512_context  ctx_groestl;
-	hashState_groestl       ctx_groestl2;
 
 
 	// We want to permute algorithms. To get started we
