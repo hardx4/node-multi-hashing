@@ -69,18 +69,16 @@ static void next_permutation(int *pbegin, int *pend) {
 }
 // helpers
 
-tt10_ctx_holder;
-
-tt10_ctx_holder tt10_ctx __attribute__((aligned(64)));
-__thread tt10_ctx_holder tt10_mid __attribute__((aligned(64)));
-
 void timetravel10_hash(const char* input, char* output, uint32_t len)
 {
-	uint32_t _ALIGN(64) hash[16 * HASH_FUNC_COUNT];
+	uint32_t hash[16 * HASH_FUNC_COUNT] __attribute__((aligned(64)));
 	uint32_t *hashA, *hashB;
 	uint32_t dataLen = 64;
 	uint32_t *work_data = (uint32_t *)input;
-	const uint32_t timestamp = work_data[17];
+	uint32_t timestamp = work_data[17];
+	int i;
+	const int midlen = 64;          // bytes
+	const int tail = 80 - midlen;   // 16
 
 	sph_blake512_context    ctx_blake;
 	sph_bmw512_context      ctx_bmw;
@@ -93,24 +91,9 @@ void timetravel10_hash(const char* input, char* output, uint32_t len)
 	hashState_sd            ctx_simd;
 	sph_groestl512_context  ctx_groestl;
 
-
-	// We want to permute algorithms. To get started we
-	// initialize an array with a sorted sequence of unique
-	// integers where every integer represents its own algorithm.
-	uint32_t permutation[HASH_FUNC_COUNT];
-	for (uint32_t i = 0; i < HASH_FUNC_COUNT; i++) {
-		permutation[i] = i;
-	}
-
-	// Compute the next permuation
-	uint32_t steps = (timestamp - HASH_FUNC_BASE_TIMESTAMP) % HASH_FUNC_COUNT_PERMUTATIONS;
-	for (uint32_t i = 0; i < steps; i++) {
-		next_permutation(permutation, permutation + HASH_FUNC_COUNT);
-	}
-
 	for (uint32_t i = 0; i < HASH_FUNC_COUNT; i++) {
 		if (i == 0) {
-			dataLen = len;
+			dataLen = 80;
 			hashA = work_data;
 		}
 		else {
