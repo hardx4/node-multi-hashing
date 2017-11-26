@@ -79,7 +79,7 @@ void x11_hash(const char* input, char* output, uint32_t len)
     sph_echo512 (&ctx_echo1, hashB, 64);   
     sph_echo512_close(&ctx_echo1, hashA); 
 
-    memcpy(output, hashB, 32);
+    memcpy(output, hashA, 32);
 	
 }
 
