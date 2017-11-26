@@ -172,5 +172,5 @@ void timetravel10_hash(const char* input, char* output, uint32_t len)
 		}
 	}
 
-	memcpy(output, hashB, 32);
+	memcpy(output, hashA, 32);
 }
