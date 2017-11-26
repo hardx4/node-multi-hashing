@@ -88,7 +88,7 @@ void timetravel10_hash(const char* input, char* output, uint32_t len)
 	sph_shavite512_context  ctx_shavite;
 	hashState_sd            ctx_simd;
 	sph_groestl512_context  ctx_groestl;
-	hashState_groestl       ctx_groestl;
+	hashState_groestl       ctx_groestl2;
 
 
 	// We want to permute algorithms. To get started we
