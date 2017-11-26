@@ -79,7 +79,7 @@ Handle<Value> x11(const Arguments& args) {
     return scope.Close(buff->handle_);
 }
 
-Handle<Value> timetravel(const Arguments& args) {
+Handle<Value> timetravel10(const Arguments& args) {
 	HandleScope scope;
 
 	if (args.Length() < 1)
@@ -95,7 +95,7 @@ Handle<Value> timetravel(const Arguments& args) {
 
 	uint32_t input_len = Buffer::Length(target);
 
-	timetravel_hash(input, output, input_len);
+	timetravel10_hash(input, output, input_len);
 
 	Buffer* buff = Buffer::New(output, 32);
 	return scope.Close(buff->handle_);
@@ -600,7 +600,7 @@ Handle<Value> fresh(const Arguments& args) {
 void init(Handle<Object> exports) {
     exports->Set(String::NewSymbol("quark"), FunctionTemplate::New(quark)->GetFunction());
     exports->Set(String::NewSymbol("x11"), FunctionTemplate::New(x11)->GetFunction());
-    exports->Set(String::NewSymbol("timetravel"), FunctionTemplate::New(timetravel)->GetFunction());
+    exports->Set(String::NewSymbol("timetravel10"), FunctionTemplate::New(timetravel10)->GetFunction());
     exports->Set(String::NewSymbol("scrypt"), FunctionTemplate::New(scrypt)->GetFunction());
     exports->Set(String::NewSymbol("scryptn"), FunctionTemplate::New(scryptn)->GetFunction());
     exports->Set(String::NewSymbol("scryptjane"), FunctionTemplate::New(scryptjane)->GetFunction());

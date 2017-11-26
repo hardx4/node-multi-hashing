@@ -1,4 +1,4 @@
-#include "timetravel.h"
+#include "timetravel10.h"
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
@@ -8,16 +8,17 @@
 #define HASH_FUNC_COUNT 10
 #define HASH_FUNC_COUNT_PERMUTATIONS 40320
 
-#include "sha3/sph_blake.h"
-#include "sha3/sph_bmw.h"
-#include "sha3/sph_groestl.h"
-#include "sha3/sph_jh.h"
-#include "sha3/sph_keccak.h"
-#include "sha3/sph_skein.h"
-#include "sha3/sph_luffa.h"
-#include "sha3/sph_cubehash.h"
-#include "sha3/sph_shavite.h"
-#include "sha3/sph_simd.h"
+#include "algo/blake/sph_blake.h"
+#include "algo/bmw/sph_bmw.h"
+#include "algo/jh/sph_jh.h"
+#include "algo/keccak/sph_keccak.h"
+#include "algo/skein/sph_skein.h"
+#include "algo/luffa/sse2/luffa_for_sse2.h"
+#include "algo/cubehash/sse2/cubehash_sse2.h"
+#include "algo/shavite/sph_shavite.h"
+#include "algo/simd/sse2/nist.h"
+#include "algo/groestl/sph_groestl.h"
+#include "algo/groestl/aes_ni/hash-groestl.h"
 
 
 #define _ALIGN(x) __attribute__ ((aligned(x)))
@@ -69,7 +70,7 @@ static void next_permutation(int *pbegin, int *pend) {
 }
 // helpers
 
-void timetravel_hash(const char* input, char* output, uint32_t len)
+void timetravel10_hash(const char* input, char* output, uint32_t len)
 {
 	uint32_t _ALIGN(64) hash[16 * HASH_FUNC_COUNT];
 	uint32_t *hashA, *hashB;
@@ -77,16 +78,18 @@ void timetravel_hash(const char* input, char* output, uint32_t len)
 	uint32_t *work_data = (uint32_t *)input;
 	const uint32_t timestamp = work_data[17];
 
-	sph_blake512_context     ctx_blake;
-	sph_bmw512_context       ctx_bmw;
-	sph_groestl512_context   ctx_groestl;
-	sph_skein512_context     ctx_skein;
-	sph_jh512_context        ctx_jh;
-	sph_keccak512_context    ctx_keccak;
-	sph_luffa512_context     ctx_luffa;
-	sph_cubehash512_context  ctx_cubehash;
-	sph_shavite512_context   ctx_shavite;
-	sph_simd512_context      ctx_simd;
+	sph_blake512_context    ctx_blake;
+	sph_bmw512_context      ctx_bmw;
+	sph_skein512_context    ctx_skein;
+	sph_jh512_context       ctx_jh;
+	sph_keccak512_context   ctx_keccak;
+	hashState_luffa         ctx_luffa;
+	cubehashParam           ctx_cubehash;
+	sph_shavite512_context  ctx_shavite;
+	hashState_sd            ctx_simd;
+	sph_groestl512_context  ctx_groestl;
+	hashState_groestl       ctx_groestl;
+
 
 	// We want to permute algorithms. To get started we
 	// initialize an array with a sorted sequence of unique
