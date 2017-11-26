@@ -65,6 +65,7 @@
             ],
             "include_dirs": [
                 "crypto",
+                "algo",
             ],
             "cflags_cc": [
                 "-std=c++0x"
