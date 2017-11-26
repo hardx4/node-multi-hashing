@@ -9,7 +9,7 @@
                 "keccak.c",
                 "skein.c",
                 "x11.c",
-                "timetravel10.c",
+                "timetravel.c",
                 "quark.c",
                 "bcrypt.c",
                 "groestl.c",

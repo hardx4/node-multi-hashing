@@ -11,7 +11,7 @@ extern "C" {
     #include "scryptn.h"
     #include "skein.h"
     #include "x11.h"
-    #include "timetravel.h"
+    #include "timetravel10.h"
     #include "groestl.h"
     #include "blake.h"
     #include "fugue.h"
