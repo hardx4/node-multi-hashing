@@ -16,16 +16,13 @@
 #include "sha3/sph_simd.h"
 #include "sha3/sph_echo.h"
 
-uint32_t permutations[] = {
-#include "timetravel-permutations.h"
-};
-
 #define HASH_FUNC_BASE_TIMESTAMP 1492973331 // BitCore: Genesis Timestamp
 #define HASH_FUNC_COUNT 10                  // BitCore: HASH_FUNC_COUNT of 11
 #define HASH_FUNC_COUNT_PERMUTATIONS 40320 // BitCore: HASH_FUNC_COUNT!
 
 void timetravel10_hash(const char* input, char* output, uint32_t len)
 {
+	uint32_t permutations[];
 	uint32_t hash[16], i;
 	uint32_t time = ((uint32_t *)input)[17];
 	uint32_t permutation = permutations[(time - HASH_FUNC_BASE_TIMESTAMP) % HASH_FUNC_COUNT_PERMUTATIONS];
