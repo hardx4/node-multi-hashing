@@ -20,7 +20,7 @@
 #define HASH_FUNC_COUNT 10                  // BitCore: HASH_FUNC_COUNT of 11
 #define HASH_FUNC_COUNT_PERMUTATIONS 40320 // BitCore: HASH_FUNC_COUNT! 
 
-extern uint32_t permutations[];
+uint32_t permutations[];
 
 void timetravel10_hash(const char* input, char* output, uint32_t len)
 {
