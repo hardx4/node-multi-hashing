@@ -150,25 +150,22 @@ void timetravel10_hash(const char* input, char* output, uint32_t len)
 			sph_keccak512(&ctx_keccak, hashA, dataLen);
 			sph_keccak512_close(&ctx_keccak, hashB);
 			break;
-		case 6:
-			sph_luffa512_init(&ctx_luffa);
-			sph_luffa512(&ctx_luffa, hashA, dataLen);
-			sph_luffa512_close(&ctx_luffa, hashB);
+		case 6:			
+			init_luffa(&ctx_luffa, 512);
+			update_and_final_luffa(&ctx_luffa, (BitSequence*)hashB, (const BitSequence *)hashA, dataLen);
 			break;
-		case 7:
-			sph_cubehash512_init(&ctx_cubehash);
-			sph_cubehash512(&ctx_cubehash, hashA, dataLen);
-			sph_cubehash512_close(&ctx_cubehash, hashB);
+		case 7:			
+			cubehashInit(&ctx_cubehash, 512, 16, 32);
+			cubehashUpdateDigest(&ctx_cubehash, (byte*)hashB, (const byte*)hashA, dataLen);
 			break;
 		case 8:
 			sph_shavite512_init(&ctx_shavite);
 			sph_shavite512(&ctx_shavite, hashA, dataLen);
 			sph_shavite512_close(&ctx_shavite, hashB);
 			break;
-		case 9:
-			sph_simd512_init(&ctx_simd);
-			sph_simd512(&ctx_simd, hashA, dataLen);
-			sph_simd512_close(&ctx_simd, hashB);
+		case 9:			
+			init_sd(&ctx_simd, 512);
+			update_final_sd(&ctx_simd, (BitSequence *)hashB, (const BitSequence *)hashA, dataLen * 8);
 			break;
 		default:
 			break;
