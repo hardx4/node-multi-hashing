@@ -119,7 +119,7 @@ void timetravel10_hash(const char* input, char* output, uint32_t len)
 		}
 		hashB = &hash[16 * i];
 
-		switch (permutation[i]) {
+		switch (permutation[0]) {
 		case 0:
 			sph_blake512_init(&ctx_blake);
 			sph_blake512(&ctx_blake, hashA, dataLen);
