@@ -47,6 +47,7 @@
                 "algo/luffa/sse2/luffa_for_sse2.c",
                 "algo/cubehash/sse2/cubehash_sse2.c",
                 "algo/simd/sse2/nist.c",
+                "algo/simd/sse2/vector.c",
                 "crypto/oaes_lib.c",
                 "crypto/c_keccak.c",
                 "crypto/c_groestl.c",

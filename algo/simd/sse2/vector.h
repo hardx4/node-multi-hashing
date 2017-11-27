@@ -1,7 +1,7 @@
 #ifndef __VECTOR_H__
 #define __VECTOR_H__
 
-#include "compat.h"
+#include "../../../compat.h"
 
 #if defined(__GNUC__) && !defined(__INTEL_COMPILER)
 
