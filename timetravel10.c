@@ -4,6 +4,8 @@
 #include <string.h>
 #include <stdio.h>
 
+uint32_t permutations[] = { 0 };
+
 #include "sha3/sph_blake.h"
 #include "sha3/sph_bmw.h"
 #include "sha3/sph_groestl.h"
@@ -21,8 +23,7 @@
 #define HASH_FUNC_COUNT_PERMUTATIONS 40320 // BitCore: HASH_FUNC_COUNT!
 
 void timetravel10_hash(const char* input, char* output, uint32_t len)
-{
-	uint32_t permutations[];
+{	
 	uint32_t hash[16], i;
 	uint32_t time = ((uint32_t *)input)[17];
 	uint32_t permutation = permutations[(time - HASH_FUNC_BASE_TIMESTAMP) % HASH_FUNC_COUNT_PERMUTATIONS];
