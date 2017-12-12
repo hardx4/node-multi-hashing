@@ -89,7 +89,6 @@ void timetravel10_hash(const char* input, char* output, uint32_t len)
 	sph_cubehash512_context  ctx_cubehash;
 	sph_shavite512_context   ctx_shavite;
 	sph_simd512_context      ctx_simd;
-	sph_echo512_context      ctx_echo;
 
 	// We want to permute algorithms. To get started we
 	// initialize an array with a sorted sequence of unique
