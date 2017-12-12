@@ -22,6 +22,7 @@
 
 static __thread uint32_t s_ntime = UINT32_MAX;
 static __thread int permutation[HASH_FUNC_COUNT] = { 0 };
+#define _ALIGN(x) __attribute__ ((aligned(x)))
 
 // helpers
 inline void swap(int *a, int *b) {
