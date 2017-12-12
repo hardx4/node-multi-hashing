@@ -14,7 +14,6 @@
 #include "sha3/sph_cubehash.h"
 #include "sha3/sph_shavite.h"
 #include "sha3/sph_simd.h"
-#include "sha3/sph_echo.h"
 
 #define HASH_FUNC_BASE_TIMESTAMP 1492973331U   // Machinecoin: Genesis Timestamp
 #define HASH_FUNC_COUNT 10                     // Machinecoin: HASH_FUNC_COUNT of 11
@@ -23,7 +22,6 @@
 
 static __thread uint32_t s_ntime = UINT32_MAX;
 static __thread int permutation[HASH_FUNC_COUNT] = { 0 };
-#define _ALIGN(x) __attribute__ ((aligned(x)))
 
 // helpers
 inline void swap(int *a, int *b) {
@@ -110,7 +108,7 @@ void timetravel10_hash(const char* input, char* output, uint32_t len)
 
 	for (int i = 0; i < HASH_FUNC_COUNT; i++) {
 		if (i == 0) {
-			dataLen = 80;
+			dataLen = len;
 			hashA = work_data;
 		}
 		else {
@@ -169,12 +167,7 @@ void timetravel10_hash(const char* input, char* output, uint32_t len)
 			sph_simd512_init(&ctx_simd);
 			sph_simd512(&ctx_simd, hashA, dataLen);
 			sph_simd512_close(&ctx_simd, hashB);
-			break;
-		case 10:
-			sph_echo512_init(&ctx_echo);
-			sph_echo512(&ctx_echo, hashA, dataLen);
-			sph_echo512_close(&ctx_echo, hashB);
-			break;
+			break;		
 		default:
 			break;
 		}
