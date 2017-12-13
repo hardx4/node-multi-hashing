@@ -1,4 +1,3 @@
-#include "timetravel10.h"
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
@@ -14,6 +13,7 @@
 #include "sha3/sph_cubehash.h"
 #include "sha3/sph_shavite.h"
 #include "sha3/sph_simd.h"
+#include "sha3/sph_echo.h"
 
 #define HASH_FUNC_BASE_TIMESTAMP 1492973331U   // Machinecoin: Genesis Timestamp
 #define HASH_FUNC_COUNT 10                     // Machinecoin: HASH_FUNC_COUNT of 11
@@ -90,6 +90,7 @@ void timetravel10_hash(const char* input, char* output, uint32_t len)
 	sph_cubehash512_context  ctx_cubehash;
 	sph_shavite512_context   ctx_shavite;
 	sph_simd512_context      ctx_simd;
+	sph_echo512_context      ctx_echo;
 
 	// We want to permute algorithms. To get started we
 	// initialize an array with a sorted sequence of unique
@@ -108,7 +109,7 @@ void timetravel10_hash(const char* input, char* output, uint32_t len)
 
 	for (int i = 0; i < HASH_FUNC_COUNT; i++) {
 		if (i == 0) {
-			dataLen = len;
+			dataLen = 80;
 			hashA = work_data;
 		}
 		else {
@@ -167,7 +168,12 @@ void timetravel10_hash(const char* input, char* output, uint32_t len)
 			sph_simd512_init(&ctx_simd);
 			sph_simd512(&ctx_simd, hashA, dataLen);
 			sph_simd512_close(&ctx_simd, hashB);
-			break;		
+			break;
+		case 10:
+			sph_echo512_init(&ctx_echo);
+			sph_echo512(&ctx_echo, hashA, dataLen);
+			sph_echo512_close(&ctx_echo, hashB);
+			break;
 		default:
 			break;
 		}
