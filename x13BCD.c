@@ -27,13 +27,13 @@ void x13BCD_hash(const char* input, char* output, uint32_t len)
     sph_skein512_context     ctx_skein;
     sph_jh512_context        ctx_jh;
     sph_keccak512_context    ctx_keccak;
-    sph_luffa512_context    ctx_luffa1;
-    sph_cubehash512_context ctx_cubehash1;
-    sph_shavite512_context  ctx_shavite1;
-    sph_simd512_context     ctx_simd1;
-    sph_echo512_context     ctx_echo1;
-    sph_hamsi512_context    ctx_hamsi1;
-    sph_fugue512_context    ctx_fugue1;
+    sph_luffa512_context    ctx_luffa;
+    sph_cubehash512_context ctx_cubehash;
+    sph_shavite512_context  ctx_shavite;
+    sph_simd512_context     ctx_simd;
+    sph_echo512_context     ctx_echo;
+    sph_hamsi512_context    ctx_hamsi;
+    sph_fugue512_context    ctx_fugue;
 
     //these uint512 in the c++ source of the client are backed by an array of uint32
 	uint32_t hash[128];
