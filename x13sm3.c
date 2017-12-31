@@ -62,8 +62,7 @@ void x13sm3_hash(const char* input, char* output, uint32_t len)
 	sph_keccak512(&ctx_keccak, hash, 64);
 	sph_keccak512_close(&ctx_keccak, hash);
 
-	hash[12].SetNull();	//sm3 is 256bit, just in case
-	hash[13].SetNull();
+	
 	sm3_init(&ctx_sm3);
 	sph_sm3(&ctx_sm3, hash, 64);
 	sph_sm3_close(&ctx_sm3, hash);
