@@ -21,7 +21,7 @@ extern "C" {
     #include "shavite3.h"
     #include "cryptonight.h"
     #include "x13.h"
-	#include "x13BCD.h"
+	#include "x13sm3.h"
     #include "nist5.h"
     #include "sha1.h",
     #include "x15.h"
@@ -498,7 +498,7 @@ Handle<Value> x13(const Arguments& args) {
     return scope.Close(buff->handle_);
 }
 
-Handle<Value> x13BCD(const Arguments& args) {
+Handle<Value> x13sm3(const Arguments& args) {
 	HandleScope scope;
 
 	if (args.Length() < 1)
@@ -514,7 +514,7 @@ Handle<Value> x13BCD(const Arguments& args) {
 
 	uint32_t input_len = Buffer::Length(target);
 
-	x13BCD_hash(input, output, input_len);
+	x13sm3_hash(input, output, input_len);
 
 	Buffer* buff = Buffer::New(output, 32);
 	return scope.Close(buff->handle_);
@@ -663,7 +663,7 @@ void init(Handle<Object> exports) {
     exports->Set(String::NewSymbol("shavite3"), FunctionTemplate::New(shavite3)->GetFunction());
     exports->Set(String::NewSymbol("cryptonight"), FunctionTemplate::New(cryptonight)->GetFunction());
     exports->Set(String::NewSymbol("x13"), FunctionTemplate::New(x13)->GetFunction());
-	exports->Set(String::NewSymbol("x13BCD"), FunctionTemplate::New(x13BCD)->GetFunction());
+	exports->Set(String::NewSymbol("x13sm3"), FunctionTemplate::New(x13sm3)->GetFunction());
     exports->Set(String::NewSymbol("boolberry"), FunctionTemplate::New(boolberry)->GetFunction());
     exports->Set(String::NewSymbol("nist5"), FunctionTemplate::New(nist5)->GetFunction());
     exports->Set(String::NewSymbol("sha1"), FunctionTemplate::New(sha1)->GetFunction());

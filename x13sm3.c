@@ -1,4 +1,4 @@
-#include "x13BCD.h"
+#include "x13sm3.h"
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
@@ -20,7 +20,7 @@
 #include "sha3/sph_sm3.h"
 
 
-void x13BCD_hash(const char* input, char* output, uint32_t len)
+void x13sm3_hash(const char* input, char* output, uint32_t len)
 {
 	unsigned char hash[128];
 
