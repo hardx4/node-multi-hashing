@@ -1,4 +1,5 @@
 #include "x13sm3.h"
+#include "uint256.h"
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
