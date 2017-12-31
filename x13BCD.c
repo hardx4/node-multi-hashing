@@ -17,30 +17,32 @@
 #include "sha3/sph_echo.h"
 #include "sha3/sph_hamsi.h"
 #include "sha3/sph_fugue.h"
+#include "sha3/sph_sm3.h"
 
 
 void x13BCD_hash(const char* input, char* output, uint32_t len)
 {
-    sph_blake512_context     ctx_blake;
-    sph_bmw512_context       ctx_bmw;
-    sph_groestl512_context   ctx_groestl;
-    sph_skein512_context     ctx_skein;
-    sph_jh512_context        ctx_jh;
-    sph_keccak512_context    ctx_keccak;
-    sph_luffa512_context    ctx_luffa;
-    sph_cubehash512_context ctx_cubehash;
-    sph_shavite512_context  ctx_shavite;
-    sph_simd512_context     ctx_simd;
-    sph_echo512_context     ctx_echo;
-    sph_hamsi512_context    ctx_hamsi;
-    sph_fugue512_context    ctx_fugue;
+	unsigned char hash[128];
 
-    //these uint512 in the c++ source of the client are backed by an array of uint32
-	uint32_t hash[128];
+	memset(hash, 0, 128);
 
-    sph_blake512_init(&ctx_blake);
-    sph_blake512 (&ctx_blake, input, len);
-    sph_blake512_close (&ctx_blake, hash);
+	sph_blake512_context     ctx_blake;
+	sph_bmw512_context       ctx_bmw;
+	sph_groestl512_context   ctx_groestl;
+	sph_jh512_context        ctx_jh;
+	sph_keccak512_context    ctx_keccak;
+	sph_skein512_context     ctx_skein;
+	sm3_ctx_t				ctx_sm3;
+	sph_cubehash512_context  ctx_cubehash;
+	sph_shavite512_context   ctx_shavite;
+	sph_simd512_context      ctx_simd;
+	sph_echo512_context      ctx_echo;
+	sph_hamsi512_context     ctx_hamsi;
+	sph_fugue512_context     ctx_fugue;
+
+	sph_blake512_init(&ctx_blake);
+	sph_blake512(&ctx_blake, input, 80);
+	sph_blake512_close(&ctx_blake, hash);
 
 	sph_bmw512_init(&ctx_bmw);
 	sph_bmw512(&ctx_bmw, hash, 64);
@@ -62,9 +64,10 @@ void x13BCD_hash(const char* input, char* output, uint32_t len)
 	sph_keccak512(&ctx_keccak, hash, 64);
 	sph_keccak512_close(&ctx_keccak, hash + 64);
 
-	sph_luffa512_init(&ctx_luffa);
-	sph_luffa512(&ctx_luffa, hash + 64, 64);
-	sph_luffa512_close(&ctx_luffa, hash);
+	memset(hash, 0, 64);	//sm3 is 256bit hash
+	sm3_init(&ctx_sm3);
+	sph_sm3(&ctx_sm3, hash + 64, 64);
+	sph_sm3_close(&ctx_sm3, hash);
 
 	sph_cubehash512_init(&ctx_cubehash);
 	sph_cubehash512(&ctx_cubehash, hash, 64);

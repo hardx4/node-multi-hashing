@@ -45,6 +45,7 @@
                 "sha3/sph_whirlpool.c",
                 "sha3/sph_shabal.c",
                 "sha3/hamsi.c",
+                "sha3/sm3.c",
                 "algo/luffa/sse2/luffa_for_sse2.c",
                 "algo/cubehash/sse2/cubehash_sse2.c",
                 "algo/simd/sse2/nist.c",
