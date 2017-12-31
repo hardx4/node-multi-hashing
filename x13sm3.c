@@ -1,5 +1,4 @@
 #include "x13sm3.h"
-#include "uint256.h"
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
@@ -23,7 +22,7 @@
 
 void x13sm3_hash(const char* input, char* output, uint32_t len)
 {
-	uint256 hash[34];	
+	uint32_t hash[34];
 
 	sph_blake512_context     ctx_blake;
 	sph_bmw512_context       ctx_bmw;
