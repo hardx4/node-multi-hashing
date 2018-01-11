@@ -22,6 +22,7 @@
                 "cryptonight.c",
                 "x13.c",
                 "x13sm3.c",
+                "tribus.c",
                 "boolberry.cc",
                 "nist5.c",
                 "sha1.c",
