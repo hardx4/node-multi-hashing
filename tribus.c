@@ -16,7 +16,7 @@ void tribus_hash(const char* input, char* output, uint32_t len)
     sph_echo512_context     ctx_echo1;    
 
     //these uint512 in the c++ source of the client are backed by an array of uint32
-	uint32_t _ALIGN(128) hash[64];
+	uint32_t hash[64];
 
     sph_jh512_init(&ctx_jh);
     sph_jh512 (&ctx_jh, hash, len);
