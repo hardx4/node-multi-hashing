@@ -19,7 +19,7 @@ void tribus_hash(const char* input, char* output, uint32_t len)
 	uint32_t hash[64];
 
     sph_jh512_init(&ctx_jh);
-    sph_jh512 (&ctx_jh, len, 80);
+    sph_jh512 (&ctx_jh, input, 80);
     sph_jh512_close(&ctx_jh, hash);
 
     sph_keccak512_init(&ctx_keccak);
